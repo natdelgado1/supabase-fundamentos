@@ -3,6 +3,8 @@
 import { useState, useRef } from "react";
 import Image from "next/image";
 import { supabase } from "../utils/client";
+export const dynamic = 'force-dynamic'
+
 
 export default function CreatePage() {
   const [imageFile, setImageFile] = useState<File | null>(null);
