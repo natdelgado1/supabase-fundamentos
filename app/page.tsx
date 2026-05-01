@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { getTimeAgo } from "./utils/time";
 import { type Post } from "./mocks/posts";
 import { supabase } from "./utils/client";
+export const dynamic = 'force-dynamic'
 
 function HeartIcon({ filled }: { filled: boolean }) {
   if (filled) {
