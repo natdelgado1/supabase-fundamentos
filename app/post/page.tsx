@@ -64,7 +64,7 @@ export default function CreatePage() {
 
     // 4️⃣ Crear el post en la tabla posts_new
     const { data: postData, error: postError } = await supabase
-      .from("posts_new")
+      .from("post_new")
       .insert({
         user_id: userId,
         image_url: publicUrl,
