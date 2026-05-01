@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getTimeAgo } from "./utils/time";
-import { posts as initialPosts, type Post } from "./mocks/posts";
+import { type Post } from "./mocks/posts";
+import { supabase } from "./utils/client";
 
 function HeartIcon({ filled }: { filled: boolean }) {
   if (filled) {
@@ -43,14 +44,14 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: number | string) 
       <div className="flex items-center gap-3 p-4">
         <div className="relative w-10 h-10 rounded-full overflow-hidden ring-2 ring-primary">
           <Image
-            src={post.user.avatar}
-            alt={post.user.username}
+            src={post.image_url}
+            alt={post.caption}
             fill
             className="object-cover"
           />
         </div>
         <div className="flex flex-col">
-          <span className="font-semibold text-foreground">{post.user.username}</span>
+          <span className="font-semibold text-foreground">{post.caption}</span>
           <span className="text-xs text-foreground/50">{getTimeAgo(post.created_at)}</span>
         </div>
       </div>
@@ -59,7 +60,7 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: number | string) 
       <div className="relative w-full aspect-square">
         <Image
           src={post.image_url}
-          alt={`Post de ${post.user.username}`}
+          alt={`Post de ${post.caption}`}
           fill
           className="object-cover"
         />
@@ -83,7 +84,7 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: number | string) 
 
         {/* Caption */}
         <p className="mt-2 text-foreground">
-          <span className="font-semibold">{post.user.username}</span>{" "}
+          <span className="font-semibold">{post.caption}</span>{" "}
           <span className="text-foreground/80">{post.caption}</span>
         </p>
       </div>
@@ -92,7 +93,7 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: number | string) 
 }
 
 export default function Home() {
-  const [posts, setPosts] = useState<Post[]>(initialPosts);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const handleLike = (postId: number | string) => {
     setPosts((prevPosts) =>
@@ -108,6 +109,24 @@ export default function Home() {
     );
   };
 
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const { data, error } = await supabase
+        .from("post_new")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching posts:", error);
+      } else if (data) {
+        setPosts(data);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+ 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
