@@ -68,7 +68,7 @@ function Modal({
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-semibold text-foreground">{post.user?.username || "default user"}</span>
+            <span className="font-semibold text-foreground">User default</span>
             <span className="text-xs text-foreground/50">{getTimeAgo(post.created_at)}</span>
           </div>
         </div>
@@ -77,7 +77,7 @@ function Modal({
         <div className="relative w-full aspect-square">
           <Image
             src={post.image_url}
-            alt={`Post de ${post.user?.username || "default user"}`}
+            alt={`Post de default user`}
             fill
             className="object-cover"
           />
@@ -92,7 +92,7 @@ function Modal({
             </span>
           </div>
           <p className="mt-2 text-foreground">
-            <span className="font-semibold">{post.user?.username || "default user"}</span>{" "}
+            <span className="font-semibold">User default</span>{" "}
             <span className="text-foreground/80">{post.caption}</span>
           </p>
         </div>

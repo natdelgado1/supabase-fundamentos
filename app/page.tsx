@@ -73,9 +73,9 @@ function PostCard({ post, onLike }: { post: Post; onLike: (id: number | string) 
           <button
             onClick={() => onLike(post.id)}
             className="hover:scale-110 transition-transform active:scale-95"
-            aria-label={post.isLiked ? "Quitar like" : "Dar like"}
+            aria-label={ "Quitar like" }
           >
-            <HeartIcon filled={post.isLiked} />
+            <HeartIcon filled={post.likes as number > 0} />
           </button>
           <span className="font-semibold text-foreground">
             {post.likes.toLocaleString()} likes
@@ -101,8 +101,8 @@ export default function Home() {
         post.id === postId
           ? {
               ...post,
-              isLiked: !post.isLiked,
-              likes: post.isLiked ? post.likes - 1 : post.likes + 1,
+              isLiked: !post.likes, // Alterna el estado de like
+              likes: post.likes ? post.likes - 1 : post.likes + 1,
             }
           : post
       )
